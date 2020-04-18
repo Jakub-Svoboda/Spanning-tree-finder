@@ -13,6 +13,8 @@ do
     correct=`echo tests/out/$f`
     correctOut=`cat $correct`
     dif=`diff <(echo "$out") <(echo "$correctOut")`
+    #dif=`diff <(sort < echo $out)) <(sort < echo $correctOut))`
+    #sort | echo $out
     printf "Testing %s: " $entry 
     if [ "$dif" == "" ]; then
         printf  "${GREEN}""PASS""${NOCOLOR}"

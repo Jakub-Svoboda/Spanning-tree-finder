@@ -1,9 +1,9 @@
 /******
 * Project: FLP FIT VUTBR - Spanning tree finder - Kostra grafu
-* Name: Jakub Svoboda 
+* Name:  Jakub Svoboda 
 * Login: xsvobo0z
 * Email: xsvobo0z@stud.fit.vutbr.cz
-* Date: 15.4.2020
+* Date:  15.4.2020
 * 
 * How to use: 
 * 	Compile:	make
@@ -17,19 +17,38 @@ main :-
 	prompt(_, ''),									%disable |:
 	readLines(Input),								%read from stdin
 	removeSpaces(Input, Edges),						%remove spaces between "A B" in input, return a list of edges
-	%getVertices(Edges, Vertices),					%Get list of unique vertices
-	%length(Vertices, VerLen),						%Get number of vertices
+	getVertices(Edges, Vertices),					%Get list of unique vertices
+	length(Vertices, VerLen),						%Get number of vertices
 	strToTerm(Edges, EdgesList),					%Convert input lists to a single list
-	findall(T, getTree(EdgesList,T), Res),			%Start the search alogirthm
-	sortPairs(Res,Ress),							%Sort the two vertices of each edge alphabetically
-	sortAll(Ress,X),	   							%Sort all spanning trees alphabetically
-	remove_duplicates(X, Res2),						%Remove duplicite spanning trees
-	sort(Res2,Res3),								%Sort results
+	findall(T, getTree(EdgesList,T), Trees),		%Start the search alogirthm
+	sortPairs(Trees, TreesSorted),					%Sort the two vertices of each edge alphabetically
+	sortAll(TreesSorted, Filtered),	   				%Sort all spanning trees alphabetically
+	remove_duplicates(Filtered, Res),				%Remove duplicite spanning trees
+	TreeLen is VerLen-1,							%Length of a spanning tree is NumOfVertices -1
+	removeWrongLengths(Res, TreeLen, Res2Removed),	%Remove trees with incorrect length (unconnected trees)
+	sort(Res2Removed,Res3),							%Sort results
 	myPrint(Res3),									%Output
 	halt
 .
 
+%Removes spanning trees which do not have the proper length.
+%This also filters results when there was a disconnected graph given
+%When a disconnected graph is passed, nothing should be printed as a result
+%1st argument: A list spanning trees for filtering
+%2nd argument: The expected length of a spanning tree
+%3rd argument: The filtered list of spanning trees
+removeWrongLengths([], _, []).
+removeWrongLengths([Tree|SpanningTrees], Len, [Tree|Result]):-
+	length(Tree, Len),									%if the length matches, add the tree to our results
+	removeWrongLengths(SpanningTrees, Len, Result)
+.
+removeWrongLengths([_|SpanningTrees], Len, Result):-
+	removeWrongLengths(SpanningTrees, Len, Result)		%else do not add it
+.	
+
 %Convert a list of lists (first agr) to a single list of terms (2nd arg)
+%1st argument: A list of lists to be converted
+%2nd argument: The processed result
 strToTerm([],[]).
 strToTerm([H|Tail],[Term|Result]) :-
 	nth0(0, H, A),
