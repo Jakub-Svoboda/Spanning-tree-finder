@@ -1,0 +1,16 @@
+K-L K-M K-N
+K-L K-M L-N
+K-L K-M M-N
+K-L K-N L-M
+K-L K-N M-N
+K-L L-M L-N
+K-L L-M M-N
+K-L L-N M-N
+K-M K-N L-M
+K-M K-N L-N
+K-M L-M L-N
+K-M L-M M-N
+K-M L-N M-N
+K-N L-M L-N
+K-N L-M M-N
+K-N L-N M-N

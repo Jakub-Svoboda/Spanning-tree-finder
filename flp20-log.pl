@@ -148,11 +148,36 @@ removeSpaces([X|Rest], [Remainder|Result]) :-
 %1st argument: a list of chars containing the input
 readLines(Input) :-
 	readLine(Line,Char),					%read a single line
+	isValidLine(Line),
 	( Char == end_of_file, Input = [] ;		%if char == EOF, return []
-	  readLines(Lines2), 					%else go again
-	  Input = [Line|Lines2]					
+		readLines(Lines2), 					%else go again
+		Input = [Line|Lines2]					
 	)
 .
+%This version actually does not check for the isValidLine,
+%but since the stdin has already been read the line is thrown out
+%I invented this randomly and didnt know for about 30 miunutes why it works but
+%hey good things happen to good people.
+readLines(Input) :-
+	readLine(Line,Char),					%read a single line
+	( Char == end_of_file, Input = [] ;		%if char == EOF, return []
+		readLines(Lines2),					%else go again			
+		Input = [Line|Lines2]
+	)
+.
+
+%Checks whether a line contains uppercase, spaces and EOL only
+%1st argument: The line to be checked
+isValidLine([]).
+isValidLine([Char|Line]):-
+	isValidChar(Char),
+	isValidLine(Line)
+.
+%Checks whether a Char contains uppercase, spaces and EOL only
+%1st argument: The Char to be checked
+isValidChar(Char):- Char==end_of_file.
+isValidChar(Char):-	char_code(Char, X), X==32.
+isValidChar(Char):-	char_code(Char, X),	X>=65, X=<90.
 
 %Reads a single line until the end of a line or end of a file
 %1st argument: The resulting line from input
@@ -216,3 +241,5 @@ areConnected(A, B, Edges) :-
 %1st argument: A vertex to be investigated
 %2nd argument: A list of all edges of a graph
 isNode(Vertex, Edges) :- areConnected(Vertex, _, Edges), !.
+
+
