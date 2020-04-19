@@ -2,7 +2,7 @@ Spanning Tree Finder (Kostra grafu)
 ==================
 
 
-## Spanning tree finder, programmed in Prolog for FLP class at FIT VUTBR (project 2)
+## Spanning tree finder, programmed in prolog for FLP class at FIT VUTBR (project 2)
 
 Project: FLP FIT VUTBR - Spanning tree finder - Kostra grafu
 
@@ -23,3 +23,5 @@ How to use:
 > make clean
 *   Run tests:
 > ./test.sh
+
+All example inputs in /tests/in should have a runtime below one second.
