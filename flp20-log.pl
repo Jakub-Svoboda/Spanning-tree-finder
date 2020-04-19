@@ -98,7 +98,7 @@ printMyLine([]):- nl.
 printMyLine([Edge|Line]) :-
 	( length(Line, 0) -> 				%if last edge
 		printEdge(Edge) ; 				%print wihtout space
-		printEdge(Edge),write(" ") 		%print with space
+		printEdge(Edge),write(' ') 		%print with space
 	),
 	printMyLine(Line)
 .
